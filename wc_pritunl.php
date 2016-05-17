@@ -3,7 +3,7 @@
 Plugin Name: WC Pritunl
 Plugin URI: http://freedom.globaltransit.net/
 Description: Integration with Pritunl API
-Author: Mohd Shahmi
+Author: Muhammad Umari Zulkifli
 Author URI: http://freedom.globaltransit.net
 Version: 1.0
 Text Domain: wootickets-asia-info
