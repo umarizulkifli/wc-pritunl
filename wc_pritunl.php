@@ -23,5 +23,5 @@ function new_user( $order_id ){
   $fname = $order->billing_first_name;
   $email = $order->billing_email;
   $command = escapeshellcmd('python /home/ubuntu/pritunl-script/new_user.py '. $fname .' '.$email);
-  
+  shell_exec($command);	  
 }
