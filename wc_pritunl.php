@@ -26,33 +26,22 @@ function new_user( $order_id ){
   shell_exec($command);  
 }
 
-add_filter( 'woocommerce_email_after_order_table', 'add_link_back_to_order', 1);
-function add_link_back_to_order( $order_id) {
- 	
+add_filter( 'woocommerce_email_before_order_table', 'add_link_back_to_order', 1);
+function add_link_back_to_order( $order_id, $sent_to_admin) {
+ 	if ( ! $sent_to_admin ) {
 	$order = new WC_Order( $order_id);
 	$email = $order->billing_email;
  	$command = escapeshellcmd('python /home/ubuntu/pritunl-script/get_key.py '.$email);
   	$key = shell_exec($command);
-	// Open the section with a paragraph so it is separated from the other content
-	$link = '<br/><p class="center">';
- 
-	// Add the anchor link with the admin path to the order page
-	$link .= '<a href="'.$key.'">';
- 
-	// Clickable text
-	$link .= __( 'Click here to download you VPN key', 'your_domain' );
- 
-	// Close the link
-	$link .= '</a>';
- 
-	// Close the paragraph
-	$link .= '</p>';
- 
-	// Return the link into the email
-	echo $link;
+	
+	echo '<p>VPN Key Download Link: ' . $key . '</p>';
+	
+	}
 }
+add_filter('woocommerce_order_status_pending','disable_user',1);
+add_filter('subscription_expired','disable_user', 1);
+add_filter('woocommerce_delete_order_item','delete_user',1);
 
-add_filter( 'subscription_expired', 'disable_user', 1);
 function disable_user($order_id){
 	$order = new WC_Order( $order_id );
 	$email = $order->billing_email;
@@ -65,5 +54,12 @@ function enable_user($order_id){
 	$order = new WC_Order( $order_id );
 	$email = $order->billing_email;
 	$command = escapeshellcmd('python /home/ubuntu/pritunl-script/en_usr.py '.$email);
+  	shell_exec($command);  
+}
+
+function delete_user($order_id){
+	$order = new WC_Order( $order_id );
+	$email = $order->billing_email;
+	$command = escapeshellcmd('python /home/ubuntu/pritunl-script/del_usr.py '.$email);
   	shell_exec($command);  
 }
