@@ -32,9 +32,9 @@ function add_link_back_to_order( $order_id) {
 	$order = new WC_Order( $order_id);
 	$email = $order->billing_email;
  	$command = escapeshellcmd('python /home/ubuntu/pritunl-script/get_key.py '.$email);
-  	exec($command,$key);
+  	$key = shell_exec($command);
 	// Open the section with a paragraph so it is separated from the other content
-	$link = '<p>';
+	$link = '<br/><p class="center">';
  
 	// Add the anchor link with the admin path to the order page
 	$link .= '<a href="'.$key.'">';
