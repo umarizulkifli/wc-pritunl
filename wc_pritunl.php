@@ -15,12 +15,26 @@ License URI: http://www.gnu.org/licenses/gpl-3.0.html
 //referal from : http://stackoverflow.com/questions/28218580/woocommerce-hook-for-after-payment-complete-actions
 
 
-add_filter('woocommerce_order_status_completed', 'new_user', 1);
+add_filter('woocommerce_created_customer', 'new_user', 1);
 add_filter('woocommerce_order_status_completed_to_pending', 'disable_user', 1);
+add_filter('woocommerce_order_status_completed_to_on-hold', 'disable_user', 1);
+add_filter('subscriptions_activated_for_order','enable_user',1);
+add_filter('processed_subscription_payment_failure','disable_user',1);
 add_filter('subscriptions_expired_for_order','disable_user',1);
-add_filter('subscription_expired','disable_user', 1);
+add_filter('subscription_expired','disable_user',1);
+add_filter('subscription_put_on-hold','disable_user',1);
+add_filter('activated_subscription','enable_user',1);
+add_filter('failed_subscription_sign_ups_for_order','disable_user',1);
+add_filter('subscriptions_cancelled_for_order','disable_user',1);
+add_filter('subscription_trial_end','disable_user',1);
+add_filter('cancelled_subscription','disable_user',1);
+add_filter('subscription_end_of_prepaid_term','disable_user',1);
+add_filter('subscriptions_cancelled_for_order','disable_user',1);
+add_filter('woocommerce_subscriptions_deactivated','disable_user', 1);
 add_filter('woocommerce_delete_order_item','delete_user',1);
 add_filter('woocommerce_renewal_order_payment_complete','enable_user',1);
+add_filter('woocommerce_order_status_pending_to_completed', 'enable_user', 1);
+add_filter('woocommerce_order_status_on-hold_to_completed', 'enable_user', 1);
 add_filter('woocommerce_email_before_order_table', 'add_vpn_key_link_to_order', 1);
 
 function new_user( $order_id ){
